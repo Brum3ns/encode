@@ -4,6 +4,16 @@ Simple script that takes input from stdin and encodes each given input. The scri
 
 The script is particularly useful for modifying general wordlists or payloads.
 
+## Install 
+```bash
+go install -v github.com/Brum3ns/encode/cmd/encode@latest
+```
+
+## Example Of Usage
+```bash
+cat wordlist.txt | encode -e url
+```
+
 ## Supported Encoders
 - Ascii 
 - Base32 
