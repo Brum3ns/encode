@@ -15,11 +15,10 @@ cat wordlist.txt | encode -e url
 ```
 
 ## Adding a New Encoder
-> !Note : **The function MUST start with an uppercase and continue with lowercase**
+> !Note : **The function MUST start with an upper-case and continue with lower-case letters/digits**
 > You can read more about this in the code itself.
 
-
-You find all the function and where you can add your own in the following file:
+You find all the functions and where you can add your own in the following file:
 ```bash
 pkg/encoder/encoder.go
 ```
