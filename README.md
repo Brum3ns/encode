@@ -1,5 +1,3 @@
-# Encoder
-
 Simple script that takes input from stdin and encodes each given input. The script can encode the same input multiple times and use worker pools with threads to handle large inputs without problems.
 
 The script is particularly useful for modifying general wordlists or payloads.
