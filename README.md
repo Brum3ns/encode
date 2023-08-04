@@ -14,6 +14,26 @@ go install -v github.com/Brum3ns/encode/cmd/encode@latest
 cat wordlist.txt | encode -e url
 ```
 
+## Adding a New Encoder
+> !Note : **The function MUST start with an uppercase and continue with lowercase**
+> You can read more about this in the code itself.
+
+
+You find all the function and where you can add your own in the following file:
+```bash
+pkg/encoder/encoder.go
+```
+
+### Template function code:
+```golang
+func (e *Encoders) Name(s string) string {
+	var str string
+	//Your code...
+    //...
+	return str
+}
+```
+
 ## Supported Encoders
 - Ascii 
 - Base32 
