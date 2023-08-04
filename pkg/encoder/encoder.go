@@ -148,11 +148,11 @@ func (e *Encoders) Binary(s string) string {
 	return strings.Join(l, " ")
 }
 
-// Add custom encoders below. The name of the function will be added to the *encoder list* when you run: "encoder -h" next time.
+// Add custom encoders below. The *name of the function* will be added to the *encoder list* when you run: "encoder -h" next time.
 // !IMPORTANT : See the note at the top of this code (package)
-func (e *Encoders) Name(s string) string {
+/* func (e *Encoders) Name(s string) string {
 	var str string
 	//Your code...
 	//...
 	return str
-}
+} */
