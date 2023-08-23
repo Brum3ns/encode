@@ -7,6 +7,33 @@ The script is particularly useful for modifying general wordlists or payloads.
 go install -v github.com/Brum3ns/encode/cmd/encode@latest
 ```
 
+## Options
+| Option | Description |
+|-|-|
+| -d | The decoder to be used for each input given by stdin |
+| -e | The encoder to be used for each input given by stdin |
+| -t | Threads to use (Default: 42) |
+
+| Methods | Supports |
+|-|-|
+|  Base32 | encoder/decoder |
+|  Base64 | encoder/decoder |
+|  Binary | encoder/decoder |
+|  Hex | encoder/decoder |
+|  Hexdec | encoder/decoder |
+|  Html | encoder/decoder |
+|  Htmle | encoder/decoder |
+|  Lower | encoder |
+|  Octal | encoder/decoder |
+|  Unicode | encoder/decoder |
+|  Unicodeplus | encoder/decoder |
+|  Upper | encoder |
+|  Url | encoder/decoder |
+|  Urldouble | encoder/decoder |
+|  Xhex | encoder/decoder |
+|  Xhexdec | encoder/decoder |
+
+
 ## Example Of Usage
 ```bash
 cat wordlist.txt | encode -e url
@@ -16,12 +43,14 @@ cat wordlist.txt | encode -e url
 > !Note : **The function MUST start with an upper-case and continue with lower-case letters/digits**
 > You can read more about this in the code itself.
 
-You find all the functions and where you can add your own in the following file:
+You add a custom encoder/decoder within this file:
 ```bash
-pkg/encoder/encoder.go
+pkg/encoder/custom.go
 ```
 
-### Template function code:
+### Encoder/Decoder Template
+
+> Encoder
 ```golang
 func (e *Encoders) Name(s string) string {
 	var str string
@@ -30,20 +59,12 @@ func (e *Encoders) Name(s string) string {
 	return str
 }
 ```
-
-## Supported Encoders
-- Ascii 
-- Base32 
-- Base64 
-- Binary 
-- Hex 
-- Html 
-- Htmle 
-- Lower 
-- Octal 
-- Unicode 
-- Unicodeplus 
-- Upper 
-- Url 
-- Urldouble 
-- Xhex 
+> Decoder
+```golang
+func (d *Decoders) Name(s string) string {
+	var str string
+	//Your code...
+    //...
+	return str
+}
+```
