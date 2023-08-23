@@ -19,7 +19,7 @@ type Decoders struct {
 
 func NewDecoder() *Decoders {
 	return &Decoders{
-		Valid: SetNames(Decoders{}),
+		Valid: GetMethodNames(Decoders{}),
 	}
 }
 
@@ -81,7 +81,17 @@ func (d *Decoders) Unicodeplus(s string) string {
 }
 
 func (d *Decoders) Octal(s string) string {
-	return s
+	var str string
+	for _, i := range strings.Split(s, "\\") {
+		if i != "" {
+			v, err := strconv.ParseInt(i, 8, 64)
+			if err != nil {
+				log.Fatal("Invalid octal value")
+			}
+			str += string(v)
+		}
+	}
+	return str
 }
 
 func (e *Decoders) Hexdec(s string) string {

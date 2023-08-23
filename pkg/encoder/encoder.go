@@ -16,7 +16,7 @@ type Encoders struct {
 
 func NewEncoder() *Encoders {
 	return &Encoders{
-		Valid: SetNames(Encoders{}),
+		Valid: GetMethodNames(Encoders{}),
 	}
 }
 

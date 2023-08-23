@@ -9,7 +9,10 @@ import (
 
 func (opt *Options) customUsage() {
 	space_width := "\t"
-	fmt.Printf("Usage: encoder -e/-d <type> [OPTIONS] ...\n%s\n", encoder.Show(encoder.Decoders{}))
+
+	fmt.Println("Usage: encoder -e/-d <type> [OPTIONS] ...")
+	encoder.Show()
+
 	flag.VisitAll(func(f *flag.Flag) {
 		var defaultValue string
 		if len(f.DefValue) > 0 {

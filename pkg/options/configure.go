@@ -63,9 +63,9 @@ func (conf *Configure) Stdin() bool {
 }
 
 func (conf *Configure) Encode() bool {
-	return len(conf.Option.Decode) > 0 || encoder.IsValid(*conf.Encoder, conf.Option.Encode)
+	return len(conf.Option.Decode) > 0 || encoder.IsValidMethod(*conf.Encoder, conf.Option.Encode)
 }
 
 func (conf *Configure) Decode() bool {
-	return len(conf.Option.Encode) > 0 || encoder.IsValid(*conf.Decoder, conf.Option.Decode)
+	return len(conf.Option.Encode) > 0 || encoder.IsValidMethod(*conf.Decoder, conf.Option.Decode)
 }
