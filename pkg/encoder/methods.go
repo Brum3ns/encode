@@ -9,6 +9,7 @@ type Structure interface {
 	Encoders | Decoders
 }
 
+// Show all the encoders and decoders
 func Show() {
 	var (
 		lst_encoders = GetMethods(Encoders{})
@@ -35,7 +36,7 @@ func Show() {
 	fmt.Println("---")
 }
 
-// Show all the encoders and decoders given in a map form (key = encoder/decoder, list = supported methods)
+// It "works" :)
 func getUnique(encoders, decoders []string) map[string][]string {
 	var (
 		uniuqe = make(map[string][]string)
