@@ -31,7 +31,9 @@ func NewRunner(conf *config.Configure) error {
 	runner.job(jobs)
 
 	//Super cool loading bar ^-^
-	go loadingbar()
+	if total > 10000 {
+		go loadingbar()
+	}
 
 	//Listener
 	for i := 0; i < len(runner.conf.Option.Stdin); i++ {

@@ -3,23 +3,22 @@ package options
 import (
 	"bufio"
 	"flag"
-	"fmt"
 	"os"
 	"strings"
-
-	"github.com/Brum3ns/encode/pkg/encoder"
 )
 
 type Options struct {
 	Stdin   []string `errorcode:"1001"`
 	Encode  []string `errorcode:"1002"`
-	Threads int      `errorcode:"1003"`
+	Decode  []string `errorcode:"1003"`
+	Threads int      `errorcode:"1004"`
 }
 
 func Option() (*Configure, error) {
 	opt := &Options{}
 
-	flag.Func("e", fmt.Sprintf("The encoder to be used for each input given by stdin\n%s", encoder.ListEncoders()), opt.StringToSlice)
+	flag.Func("e", "The encoder to be used for each input given by stdin", opt.AddEncoder)
+	flag.Func("d", "The decoder to be used for each input given by stdin", opt.AddDecoder)
 	flag.IntVar(&opt.Threads, "t", 42, "Threads to use")
 	flag.Usage = opt.customUsage
 	flag.Parse()
@@ -44,9 +43,19 @@ func (opt *Options) stdin() error {
 	return nil
 }
 
-func (opt *Options) StringToSlice(s string) error {
-	for _, i := range strings.Split(s, ",") {
-		opt.Encode = append(opt.Encode, strings.Title(strings.ToLower(i)))
-	}
+func (opt *Options) AddEncoder(s string) error {
+	opt.Encode = SetUppercaseSlice(opt.Encode, s)
 	return nil
+}
+
+func (opt *Options) AddDecoder(s string) error {
+	opt.Decode = SetUppercaseSlice(opt.Decode, s)
+	return nil
+}
+
+func SetUppercaseSlice(l []string, s string) []string {
+	for _, i := range strings.Split(s, ",") {
+		l = append(l, strings.Title(strings.ToLower(i)))
+	}
+	return l
 }

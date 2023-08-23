@@ -7,62 +7,17 @@ import (
 	"fmt"
 	"html"
 	"net/url"
-	"reflect"
 	"strings"
 )
-
-// /////////////////////////////////////////////////////////////////////////////////// //
-// !IMPORTANT
-// ----------
-//	ALL reciver functions (methods) inside the [struct]ure 'Encoders' are supported
-//	encoders. No function should be a reciver unless it's a encoder. All encoder
-//	functions *MUST* start with an uppercase and continue with lowercase.
-// /////////////////////////////////////////////////////////////////////////////////// //
 
 type Encoders struct {
 	Valid []string
 }
 
-func New() *Encoders {
+func NewEncoder() *Encoders {
 	return &Encoders{
-		Valid: set_EncoderNames(),
+		Valid: SetNames(Encoders{}),
 	}
-}
-
-func IsValid(l []string) bool {
-	encode := reflect.TypeOf(&Encoders{})
-	for _, name := range l {
-		for i := 0; i < encode.NumMethod(); i++ {
-			if name == encode.Method(i).Name {
-				break
-			}
-			if i == encode.NumMethod()-1 {
-				return false
-			}
-		}
-	}
-	return true
-}
-
-func ListEncoders() string {
-	var v = "  ---"
-	encode := reflect.TypeOf(&Encoders{})
-	for i := 0; i < encode.NumMethod(); i++ {
-		name := encode.Method(i).Name
-		v += fmt.Sprintf("\n  %d. %s", (i + 1), name)
-	}
-	v += "\n  ---\n"
-	return v
-}
-
-func set_EncoderNames() []string {
-	var lst []string
-	encode := reflect.TypeOf(&Encoders{})
-	for i := 0; i < encode.NumMethod(); i++ {
-		method := encode.Method(i)
-		lst = append(lst, method.Name)
-	}
-	return lst
 }
 
 // //////////////// Supported Encoders //////////////// //
@@ -123,9 +78,18 @@ func (e *Encoders) Octal(s string) string {
 	return str
 }
 
-func (e *Encoders) Ascii(s string) string {
-	str := fmt.Sprintf("%d", []byte(s))
-	return str[1 : len(str)-1]
+func (e *Encoders) Hexdec(s string) string {
+	s = fmt.Sprintf("%d", []byte(s))
+	return s[1 : len(s)-1]
+}
+
+func (e *Encoders) Xhexdec(s string) string {
+	var str string
+	s = fmt.Sprintf("%d", []byte(s))
+	for _, i := range strings.Split(s[1:len(s)-1], " ") {
+		str += fmt.Sprintf("\\x%v", i)
+	}
+	return str
 }
 
 func (e *Encoders) Hex(s string) string {
@@ -147,12 +111,3 @@ func (e *Encoders) Binary(s string) string {
 	}
 	return strings.Join(l, " ")
 }
-
-// Add custom encoders below. The *name of the function* will be added to the *encoder list* when you run: "encoder -h" next time.
-// !IMPORTANT : See the note at the top of this code (package)
-/* func (e *Encoders) Name(s string) string {
-	var str string
-	//Your code...
-	//...
-	return str
-} */

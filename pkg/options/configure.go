@@ -13,13 +13,21 @@ import (
 type Configure struct {
 	Option  *Options
 	Encoder *encoder.Encoders
+	Decoder *encoder.Decoders
 }
 
 func configure(opt *Options) (*Configure, error) {
 	conf := &Configure{
 		Option:  opt,
-		Encoder: encoder.New(),
+		Encoder: encoder.NewEncoder(),
+		Decoder: encoder.NewDecoder(),
 	}
+
+	//Check so that not both the encoder and decoder are set:
+	if (len(opt.Encode) > 0 && len(opt.Decode) > 0) || len(opt.Decode) == 0 && len(opt.Encode) == 0 {
+		log.Fatal("An encoder or decoder has to be set. Can't set both at once.")
+	}
+
 	v := reflect.ValueOf(conf.Option).Elem()
 	t := v.Type()
 
@@ -35,6 +43,7 @@ func configure(opt *Options) (*Configure, error) {
 			}
 		}
 	}
+
 	return conf, nil
 }
 
@@ -49,10 +58,14 @@ func (conf *Configure) Threads() bool {
 	return conf.Option.Threads > 0 && conf.Option.Threads < 10000
 }
 
-func (conf *Configure) Encode() bool {
-	return len(conf.Option.Encode) > 0 && encoder.IsValid(conf.Option.Encode)
-}
-
 func (conf *Configure) Stdin() bool {
 	return len(conf.Option.Stdin) > 0
+}
+
+func (conf *Configure) Encode() bool {
+	return len(conf.Option.Decode) > 0 || encoder.IsValid(*conf.Encoder, conf.Option.Encode)
+}
+
+func (conf *Configure) Decode() bool {
+	return len(conf.Option.Encode) > 0 || encoder.IsValid(*conf.Decoder, conf.Option.Decode)
 }
